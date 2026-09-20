@@ -1,0 +1,3 @@
+ConceptID,ConceptLabel,Dependencies,TaxonomyID,SourceURL,SourceHash
+CKG-C-0001,Sample Claim,CKG-C-0002:REQUIRES,claim.example,sources/source-note.md,sha256:c216fda840b233b964a77fd9546d61cef47836efb5a5c6ca9fc9976638f8aab6
+CKG-C-0002,Sample Method,,method.example,sources/source-note.md,sha256:c216fda840b233b964a77fd9546d61cef47836efb5a5c6ca9fc9976638f8aab6

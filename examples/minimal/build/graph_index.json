@@ -1,0 +1,54 @@
+{
+  "domain": "minimal",
+  "title": "Minimal",
+  "description": "CKG bundle generated from OKF-style Markdown cards.",
+  "version": "0.1.0",
+  "sources": [
+    {
+      "id": "SRC-0001",
+      "title": "Sample source note",
+      "path": "sources/source-note.md",
+      "source_hash": "sha256:c216fda840b233b964a77fd9546d61cef47836efb5a5c6ca9fc9976638f8aab6",
+      "visibility": "public",
+      "kind": "note"
+    }
+  ],
+  "concepts": [
+    {
+      "id": "CKG-C-0001",
+      "title": "Sample Claim",
+      "type": "claim",
+      "taxonomy": "claim.example",
+      "status": "active",
+      "review_state": "reviewed",
+      "visibility": "public",
+      "summary": "A short claim that depends on one sample method.",
+      "why_it_matters": "It demonstrates a human-readable CKG card.",
+      "sources": [
+        "SRC-0001"
+      ]
+    },
+    {
+      "id": "CKG-C-0002",
+      "title": "Sample Method",
+      "type": "method",
+      "taxonomy": "method.example",
+      "status": "active",
+      "review_state": "reviewed",
+      "visibility": "public",
+      "summary": "A small method node used by the sample claim.",
+      "why_it_matters": "It demonstrates typed edges.",
+      "sources": [
+        "SRC-0001"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "CKG-C-0001",
+      "target": "CKG-C-0002",
+      "type": "REQUIRES",
+      "rationale": "The claim needs the sample method."
+    }
+  ]
+}

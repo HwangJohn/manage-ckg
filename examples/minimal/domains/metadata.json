@@ -1,0 +1,8 @@
+{
+  "minimal": {
+    "nodes": 2,
+    "edges": 1,
+    "description": "CKG bundle generated from OKF-style Markdown cards.",
+    "version": "0.1.0"
+  }
+}

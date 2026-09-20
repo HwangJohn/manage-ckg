@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/manage-ckg/schemas/okf-concept.schema.json",
+  "title": "OKF-Compatible CKG Concept Frontmatter",
+  "type": "object",
+  "required": ["id", "title", "type", "summary"],
+  "additionalProperties": true,
+  "properties": {
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "type": {
+      "type": "string",
+      "minLength": 1
+    },
+    "taxonomy": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["draft", "active", "stable", "stale", "deprecated", "rejected"]
+    },
+    "review_state": {
+      "type": "string",
+      "enum": ["unreviewed", "reviewed", "needs_review"]
+    },
+    "visibility": {
+      "type": "string",
+      "enum": ["public", "internal", "restricted", "private"]
+    },
+    "summary": {
+      "type": "string",
+      "minLength": 1
+    },
+    "why_it_matters": {
+      "type": "string"
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "edges": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["target", "type", "rationale"],
+        "additionalProperties": true,
+        "properties": {
+          "target": { "type": "string", "minLength": 1 },
+          "type": { "type": "string", "enum": ["REQUIRES", "ENABLES", "IMPLEMENTS", "RELATES_TO"] },
+          "rationale": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "generated": {
+      "type": ["object", "string"]
+    },
+    "verified": {
+      "type": ["object", "boolean", "string"]
+    },
+    "stale_after": {
+      "type": "string"
+    }
+  }
+}

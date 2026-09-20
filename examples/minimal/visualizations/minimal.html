@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Minimal</title>
+<style>
+body { margin:0; background:#f8fafc; color:#0f172a; font-family:Arial,sans-serif; }
+header { padding:22px 28px; background:#111827; color:white; }
+main { padding:18px 24px 32px; }
+table { border-collapse:collapse; background:white; border:1px solid #e5e7eb; margin-bottom:16px; }
+td,th { border-bottom:1px solid #e5e7eb; padding:7px 9px; }
+.figure { background:white; border:1px solid #e5e7eb; padding:12px; overflow:auto; margin-bottom:18px; }
+.cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(310px,1fr)); gap:12px; }
+article { background:white; border:1px solid #e5e7eb; border-radius:8px; padding:12px; }
+img { max-width:none; }
+</style>
+</head>
+<body>
+<header><h1>Minimal</h1><p>2 concepts / 1 edges</p></header>
+<main><h2>Edge Types</h2><table><tr><td>REQUIRES</td><td>1</td></tr></table><section class="figure"><img src="minimal.svg" alt="CKG graph"></section><section class="cards"><article><h3>Sample Claim</h3><p><strong>claim</strong> · claim.example</p><p>A short claim that depends on one sample method.</p><details><summary>Declared edges</summary><ul><li>REQUIRES → Sample Method: The claim needs the sample method.</li></ul></details></article><article><h3>Sample Method</h3><p><strong>method</strong> · method.example</p><p>A small method node used by the sample claim.</p><details><summary>Declared edges</summary><ul></ul></details></article></section></main>
+</body></html>

@@ -1,0 +1,10 @@
+digraph minimal {
+  graph [rankdir=LR, bgcolor="#ffffff", pad="0.35", nodesep="0.45", ranksep="0.85", splines=true, overlap=false];
+  node [shape=box, style="rounded,filled", fontname="Arial", fontsize=14, margin="0.11,0.07", color="#334155"];
+  edge [fontname="Arial", fontsize=10, arrowsize=0.65, penwidth=1.2];
+  label="Minimal · CKG";
+  labelloc="t";
+  CKG_C_0001 [label="Sample Claim\\nCKG-C-0001 · claim", fillcolor="#fecaca", penwidth=2.6];
+  CKG_C_0002 [label="Sample Method\\nCKG-C-0002 · method", fillcolor="#bbf7d0", penwidth=2.6];
+  CKG_C_0001 -> CKG_C_0002 [label="REQUIRES", color="#b45309", fontcolor="#b45309", style="solid"];
+}

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Manage CKG"
+  short_description: "Manage compressed knowledge graphs."
+  default_prompt: "Create, update, validate, and visualize a human-first compressed knowledge graph with OKF-style Markdown sources and generated graph artifacts."

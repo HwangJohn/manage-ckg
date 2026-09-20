@@ -1,0 +1,18 @@
+{
+  "domain": "minimal",
+  "version": "0.1.0",
+  "concepts": 2,
+  "edges": 1,
+  "sources": 1,
+  "edge_types": {
+    "REQUIRES": 1
+  },
+  "concept_types": {
+    "claim": 1,
+    "method": 1
+  },
+  "errors": [],
+  "warnings": [],
+  "stale_sources": [],
+  "status": "pass"
+}
