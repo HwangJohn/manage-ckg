@@ -1,6 +1,6 @@
 ---
 name: manage-ckg
-description: Create, update, validate, query, and visualize human-first compressed knowledge graphs. Use when Codex needs to manage OKF-style Markdown/YAML concept cards, JSON CKG seeds, source hashes, typed concept edges, NemoClaw-compatible CSV exports, graph indexes, validation reports, or reviewer-facing claim-evidence traceability.
+description: Create, update, validate, query, and visualize human-first compressed knowledge graphs. Use when an agent needs to manage OKF-style Markdown/YAML concept cards, JSON CKG seeds, source hashes, typed concept edges, NemoClaw-compatible CSV exports, graph indexes, validation reports, or reviewer-facing claim-evidence traceability.
 ---
 
 # Manage CKG

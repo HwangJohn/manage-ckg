@@ -1,6 +1,6 @@
 # Manage CKG
 
-`manage-ckg` is a general-purpose Codex skill and lightweight CLI for maintaining human-readable compressed knowledge graphs (CKGs).
+`manage-ckg` is a general-purpose agent skill and lightweight CLI for maintaining human-readable compressed knowledge graphs (CKGs).
 
 It is designed for teams that want a graph that people can read, review, version in Git, and hand to coding agents without hiding the evidence trail in a vector index.
 
@@ -18,7 +18,7 @@ OKF means **Open Knowledge Format** here. It is not Open Knowledge Foundation/Fr
 
 ```text
 manage-ckg/
-  SKILL.md                 # Codex skill instructions
+  SKILL.md                 # portable agent skill instructions
   README.md                # public project README
   LICENSE                  # MIT license
   agents/openai.yaml       # optional skill metadata
@@ -94,9 +94,11 @@ Supported edge types are intentionally small:
 
 Put nuance in `rationale`, not in a large edge ontology.
 
-## Skill Usage
+## Agent Skill Usage
 
-This directory is itself a Codex skill because it contains `SKILL.md`. To use it as a local skill, copy or install the `manage-ckg` directory into your Codex skills location, then ask Codex to manage a CKG bundle.
+This directory is an agent skill because it contains `SKILL.md`. The instructions are plain Markdown plus bundled scripts, so they are intended to work with Claude, Codex, OpenCode, and similar agent-skill workflows. To use it locally, copy or install the `manage-ckg` directory into the skill location supported by your agent, then ask the agent to manage a CKG bundle.
+
+`agents/openai.yaml` is optional OpenAI-facing metadata. Agents that do not use that file can ignore it; the portable entrypoint is `SKILL.md`.
 
 The skill instructs the agent to:
 
