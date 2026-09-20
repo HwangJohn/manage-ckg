@@ -160,13 +160,60 @@ def load_from_markdown(bundle: Path) -> dict:
     }
 
 
+def find_source_seed(bundle: Path) -> Path | None:
+    source_dir = bundle / "source"
+    if not source_dir.exists():
+        return None
+    preferred = [source_dir / "ckg.json"] if (source_dir / "ckg.json").exists() else []
+    preferred.extend(sorted(source_dir.glob("*_ckg.json")))
+    preferred = list(dict.fromkeys(preferred))
+    if len(preferred) == 1:
+        return preferred[0]
+    if len(preferred) > 1:
+        raise FileNotFoundError(f"Multiple source CKG JSON files found under {source_dir}: {preferred}")
+    candidates = sorted(source_dir.glob("*.json"))
+    if len(candidates) == 1:
+        return candidates[0]
+    if len(candidates) > 1:
+        raise FileNotFoundError(f"Multiple JSON files found under {source_dir}; add ckg.json or *_ckg.json")
+    return None
+
+
+def infer_bundle_root(seed_path: Path) -> Path:
+    if seed_path.parent.name == "source":
+        return seed_path.parent.parent
+    return seed_path.parent
+
+
 def load_bundle(bundle: Path) -> dict:
     json_path = bundle / "ckg.json"
     if json_path.exists():
         return json.loads(json_path.read_text(encoding="utf-8"))
+    source_seed = find_source_seed(bundle)
+    if source_seed:
+        return json.loads(source_seed.read_text(encoding="utf-8"))
     if (bundle / "concepts").exists():
         return load_from_markdown(bundle)
     raise FileNotFoundError(f"No ckg.json or concepts/*.md found under {bundle}")
+
+
+def load_target(target: Path) -> tuple[Path, dict]:
+    target = target.resolve()
+    if target.is_file():
+        return infer_bundle_root(target), json.loads(target.read_text(encoding="utf-8"))
+    return target, load_bundle(target)
+
+
+def resolve_source_path(bundle: Path, rel: str) -> Path | None:
+    path = Path(rel)
+    if path.is_absolute():
+        return path if path.exists() else None
+    candidates = [bundle / rel, Path.cwd() / rel]
+    candidates.extend(parent / rel for parent in bundle.parents)
+    for candidate in candidates:
+        if candidate.exists():
+            return candidate
+    return None
 
 
 def validate(bundle: Path, data: dict) -> dict:
@@ -209,10 +256,8 @@ def validate(bundle: Path, data: dict) -> dict:
         expected = src.get("source_hash")
         if not rel or not expected or not expected.startswith("sha256:"):
             continue
-        path = bundle / rel
-        if not path.exists():
-            path = Path(rel)
-        if not path.exists():
+        path = resolve_source_path(bundle, rel)
+        if not path:
             warnings.append(f"source file missing: {rel}")
             continue
         actual = sha256_file(path)
@@ -236,11 +281,12 @@ def validate(bundle: Path, data: dict) -> dict:
 
 
 def write_cards(bundle: Path, data: dict):
-    out = bundle / "cards"
+    out = bundle / data.get("cards_dir", data.get("card_dir", "cards"))
     out.mkdir(exist_ok=True)
     incoming = defaultdict(list)
     outgoing = defaultdict(list)
     concepts = {c["id"]: c for c in data["concepts"]}
+    sources = {s["id"]: s for s in data.get("sources", [])}
     for edge in data["edges"]:
         outgoing[edge["source"]].append(edge)
         incoming[edge["target"]].append(edge)
@@ -256,9 +302,23 @@ def write_cards(bundle: Path, data: dict):
             "",
             f"**Why it matters:** {concept.get('why_it_matters', '')}",
             "",
-            "## Connections",
+            "## Sources",
             "",
         ]
+        for source_id in concept.get("sources", []):
+            src = sources.get(source_id, {"title": source_id})
+            lines.append(f"- `{source_id}`: {src.get('title', source_id)}")
+            if src.get("path") or src.get("url"):
+                lines.append(f"  - locator: `{src.get('path') or src.get('url')}`")
+            if src.get("source_hash"):
+                lines.append(f"  - hash: `{src['source_hash']}`")
+        if not concept.get("sources"):
+            lines.append("- No declared sources yet.")
+        lines.extend([
+            "",
+            "## Connections",
+            "",
+        ])
         for edge in outgoing[concept["id"]]:
             target = concepts.get(edge["target"], {"title": edge["target"]})
             lines.append(f"- `{edge['type']}` -> **{target['title']}**: {edge.get('rationale', '')}")
@@ -480,8 +540,7 @@ python ../../scripts/ckg.py build .
 
 
 def cmd_build(args) -> int:
-    bundle = Path(args.bundle).resolve()
-    data = load_bundle(bundle)
+    bundle, data = load_target(Path(args.bundle))
     report = validate(bundle, data)
     write_outputs(bundle, data, report)
     print(f"{report['status']}: {report['concepts']} concepts, {report['edges']} edges")
@@ -493,8 +552,7 @@ def cmd_build(args) -> int:
 
 
 def cmd_validate(args) -> int:
-    bundle = Path(args.bundle).resolve()
-    data = load_bundle(bundle)
+    bundle, data = load_target(Path(args.bundle))
     report = validate(bundle, data)
     print(json.dumps(report, indent=2, ensure_ascii=False))
     return 0 if report["status"] == "pass" else 1

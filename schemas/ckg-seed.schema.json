@@ -20,6 +20,11 @@
     "version": {
       "type": "string"
     },
+    "cards_dir": {
+      "type": "string",
+      "description": "Generated card output directory. Defaults to cards; use concepts for legacy bundles only.",
+      "pattern": "^[A-Za-z0-9_-]+$"
+    },
     "sources": {
       "type": "array",
       "items": {

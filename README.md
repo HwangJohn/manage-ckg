@@ -7,7 +7,7 @@ It is designed for teams that want a graph that people can read, review, version
 ## What It Does
 
 - Maintains CKG sources as OKF-compatible Markdown cards with YAML frontmatter.
-- Supports a compact `ckg.json` seed format for deterministic bulk generation.
+- Supports compact JSON seeds for deterministic bulk generation: `ckg.json`, `source/ckg.json`, or `source/*_ckg.json`.
 - Validates concept IDs, source references, edge types, and source file hashes.
 - Generates reviewer-friendly cards, graph indexes, NemoClaw-style CSV exports, Mermaid, DOT, HTML, SVG, and PNG artifacts.
 - Keeps generated artifacts rebuildable from source cards.
@@ -46,7 +46,7 @@ python scripts/ckg.py validate examples/minimal
 
 The builder writes:
 
-- `cards/*.md`: one readable card per concept.
+- `cards/*.md`: one readable card per concept by default.
 - `domains/<domain>.csv`: NemoClaw-compatible compressed graph export.
 - `domains/metadata.json`: graph counts and metadata.
 - `build/graph_index.json`: query-friendly JSON graph.
@@ -57,7 +57,7 @@ The builder writes:
 
 ## Source Model
 
-Use Markdown cards under `concepts/` for public, human-edited graphs:
+Use Markdown cards under `concepts/` for public, human-edited source graphs:
 
 ```markdown
 ---
@@ -84,6 +84,22 @@ Longer explanation can go here.
 ```
 
 Use `sources.json` to track source files, URLs, visibility, and optional SHA-256 hashes.
+
+For JSON-seed workflows, use this shape:
+
+```json
+{
+  "domain": "example_domain",
+  "title": "Example Knowledge Graph",
+  "version": "0.1.0",
+  "cards_dir": "cards",
+  "sources": [],
+  "concepts": [],
+  "edges": []
+}
+```
+
+`cards_dir` is optional. It defaults to `cards`; set it to `concepts` only when migrating an existing bundle whose generated human-readable cards already live there.
 
 Supported edge types are intentionally small:
 

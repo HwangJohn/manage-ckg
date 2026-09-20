@@ -3,7 +3,8 @@
 This skill supports two source formats:
 
 1. `ckg.json`: compact JSON seed.
-2. OKF-style Markdown concept cards under `concepts/*.md`.
+2. `source/ckg.json` or `source/*_ckg.json`: compact JSON seed kept under a source folder.
+3. OKF-style Markdown concept cards under `concepts/*.md`.
 
 Generated artifacts should be treated as rebuildable outputs.
 
@@ -18,6 +19,7 @@ Required:
 
 Recommended:
 
+- `cards_dir`: generated card output directory. Defaults to `cards`; use `concepts` only for legacy bundles.
 - `taxonomy`: domain-specific class.
 - `status`: `draft`, `active`, `stale`, `deprecated`, or `rejected`.
 - `review_state`: `unreviewed`, `reviewed`, or `needs_review`.
