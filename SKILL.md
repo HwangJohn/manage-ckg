@@ -20,6 +20,7 @@ Manage the CKG as a human-readable source bundle with generated graph artifacts.
 
 1. Identify source format:
    - `ckg.json`: compact seed format.
+   - `source/ckg.json` or `source/*_ckg.json`: compact seed kept under a source folder.
    - `concepts/*.md`: OKF-style Markdown cards with YAML frontmatter.
 
 2. Inspect before editing:
@@ -32,6 +33,7 @@ Manage the CKG as a human-readable source bundle with generated graph artifacts.
    - Add `concepts` with stable IDs, title, type, summary, visibility, and source IDs.
    - Add typed edges using `REQUIRES`, `ENABLES`, `IMPLEMENTS`, or `RELATES_TO`.
    - Add a human-readable rationale for every edge.
+   - For legacy bundles, set `cards_dir` in the JSON seed if generated cards must go somewhere other than `cards`.
 
 4. Validate and regenerate:
    - Run `python scripts/ckg.py build <bundle-dir>`.
